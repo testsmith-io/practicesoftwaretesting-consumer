@@ -29,9 +29,12 @@ public class PactConsumerTest {
     @BeforeAll
     public static void setup() {
         // URL to the Pact JSON file
-//        String pactUrl = "https://raw.githubusercontent.com/testsmith-io/practice-software-testing/main/sprint4/API/pacts/anyconsumer-productapi.json";
+        // Version 4
+        // String pactUrl = "https://raw.githubusercontent.com/testsmith-io/practice-software-testing/main/sprint4/API/pacts/anyconsumer-productapi.json";
+        // Version 5
         String pactUrl = "https://raw.githubusercontent.com/testsmith-io/practice-software-testing/main/sprint5/API/pacts/anyconsumer-productapi.json";
-//        String pactUrl = "https://raw.githubusercontent.com/testsmith-io/practice-software-testing/main/sprint5-with-bugs/API/pacts/anyconsumer-productapi.json";
+        // Version 5 - with bugs
+        // String pactUrl = "https://raw.githubusercontent.com/testsmith-io/practice-software-testing/main/sprint5-with-bugs/API/pacts/anyconsumer-productapi.json";
 
         RestTemplate restTemplate = new RestTemplate();
         String pactJson = restTemplate.getForObject(pactUrl, String.class);
@@ -54,11 +57,11 @@ public class PactConsumerTest {
         assertNotNull(products, "Products list should not be null");
         assertTrue(products.size() > 0, "Products list should not be empty");
         assertEquals(2, products.size(), "Product list size should be 2");
-        assertEquals("Combination Pliers", products.get(0).name(), "First product name should be 'Product A'");
-        assertEquals(true, products.get(0).inStock(), "First product name should be 'Product A'");
-        assertEquals(14.15, products.get(0).price(), "First product price should be 99.99");
-        assertEquals("Pliers", products.get(1).name(), "Second product name should be 'Product B'");
-        assertEquals(12.01, products.get(1).price(), "Second product price should be 49.99");
+        assertEquals("Combination Pliers", products.get(0).name(), "First product name should be 'Combination Pliers'");
+        assertEquals(true, products.get(0).inStock(), "First product should be in stock");
+        assertEquals(14.15, products.get(0).price(), "First product price should be 14.15");
+        assertEquals("Pliers", products.get(1).name(), "Second product name should be 'Pliers'");
+        assertEquals(12.01, products.get(1).price(), "Second product price should be 12.01");
     }
 
     @AfterAll

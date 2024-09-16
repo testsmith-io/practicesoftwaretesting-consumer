@@ -12,10 +12,10 @@
 	<artifactId>practicesoftwaretesting-consumer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>practicesoftwaretesting-consumer</name>
-	<description>Consumer for practicesoftwaretesting</description>
+	<description>Consumer for Practice Software Testing</description>
 
 	<properties>
-		<java.version>22</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -53,12 +53,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>org.wiremock</groupId>
-			<artifactId>wiremock</artifactId>
-			<version>3.9.1</version>
-			<scope>test</scope>
-		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
