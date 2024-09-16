@@ -1,32 +1,16 @@
 package io.testsmith.practicesoftwaretesting_consumer.productlisting.model;
 
-public class Product {
-    private String id;
-    private String name;
-    private double price;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-    // Getters and Setters
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-}
+public record Product(
+        String id,
+        String name,
+        String description,
+        double price,
+        @JsonProperty("is_location_offer") boolean locationOffer,
+        @JsonProperty("is_rental") boolean rental,
+        @JsonProperty("in_stock") boolean inStock,
+        Brand brand,
+        Category category,
+        @JsonProperty("product_image") ProductImage productImage
+) {}

@@ -1,0 +1,13 @@
+<!-- src/main/resources/templates/fragments/productList.html -->
+<div th:fragment="productListFragment">
+    <div class="row">
+        <div class="col-md-4" th:each="product : ${products}">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${product.name}"></h5>
+                    <p class="card-text">Price: $<span th:text="${product.price}"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

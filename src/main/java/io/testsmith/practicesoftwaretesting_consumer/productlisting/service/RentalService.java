@@ -14,12 +14,12 @@ import java.net.URI;
 import java.util.List;
 
 @Service
-public class ProductService {
+public class RentalService {
 
     private final RestTemplate restTemplate;
     private final String apiBaseUrl;
 
-    public ProductService(@Value("${api.baseUrl}") String apiBaseUrl) {
+    public RentalService(@Value("${api.baseUrl}") String apiBaseUrl) {
         this.restTemplate = createRestTemplate();
         this.apiBaseUrl = apiBaseUrl;
         System.out.println("Initialized ProductService with apiBaseUrl: " + apiBaseUrl);  // Debugging line
@@ -38,17 +38,13 @@ public class ProductService {
         return restTemplate;
     }
 
-    public List<Product> getProducts(Integer page) {
-        // Build the URI with an optional page parameter
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(apiBaseUrl + "/products");
+    public List<Product> getRentalProducts() {
+        URI uri = UriComponentsBuilder.fromUriString(apiBaseUrl + "/products")
+                .queryParam("is_rental", true)  // Add query parameter
+                .build()
+                .toUri();
 
-        if (page != null && page > 0) {
-            uriBuilder.queryParam("page", page);
-        }
-
-        URI uri = uriBuilder.build().toUri();
         System.out.println("Requesting URL: " + uri);  // Debugging line
-
         ProductResponse productResponse = null;
         try {
             productResponse = restTemplate.getForObject(uri, ProductResponse.class);
@@ -59,10 +55,5 @@ public class ProductService {
             throw new RuntimeException("Failed to fetch products due to deserialization error", e);
         }
         return productResponse.getData();
-    }
-
-    // Overloaded method with no page parameter (defaults to null)
-    public List<Product> getProducts() {
-        return getProducts(null);  // Delegate to the other method
     }
 }

@@ -2,24 +2,77 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Product Listing</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-css-reset/1.4.0/reset.min.css">
+    <title>Product and Rental Listing</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 <div class="container mt-5">
     <h1 class="mb-4">Product Listing</h1>
+
+    <!-- Product list section, will be dynamically updated via AJAX -->
+    <div id="product-list">
+        <div th:replace="fragments/productList :: productListFragment"></div>
+    </div>
+
+    <!-- Pagination controls -->
+    <div class="d-flex justify-content-between mt-4">
+        <button class="btn btn-primary" id="prev-page" disabled>Previous</button>
+        <button class="btn btn-primary" id="next-page">Next</button>
+    </div>
+
+    <h1 class="mt-5 mb-4">Rental Product Listing</h1>
     <div class="row">
-        <div class="col-md-4" th:each="product : ${products}">
+        <div class="col-md-4" th:each="rental : ${rentalProducts}">
             <div class="card mb-4 shadow-sm">
                 <div class="card-body">
-                    <h5 class="card-title" th:text="${product.name}"></h5>
-                    <p class="card-text">Price: $<span th:text="${product.price}"></span></p>
+                    <h5 class="card-title" th:text="${rental.name}"></h5>
+                    <p class="card-text">Price: $<span th:text="${rental.price}"></span></p>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    let currentPage = 1;
+
+    // Function to load products for the given page using AJAX
+    function loadProducts(page) {
+        $.ajax({
+            url: '/products/paged?page=' + page,
+            method: 'GET',
+            success: function(data) {
+                $('#product-list').html(data); // Inject the HTML response for the product list
+                currentPage = page;
+
+                // Enable/disable pagination buttons based on the page number
+                if (currentPage === 1) {
+                    $('#prev-page').prop('disabled', true);
+                } else {
+                    $('#prev-page').prop('disabled', false);
+                }
+            },
+            error: function() {
+                alert('Failed to load products');
+            }
+        });
+    }
+
+    // Pagination button event listeners
+    $('#prev-page').click(function() {
+        if (currentPage > 1) {
+            loadProducts(currentPage - 1);
+        }
+    });
+
+    $('#next-page').click(function() {
+        loadProducts(currentPage + 1);
+    });
+
+    // Initial product load
+    loadProducts(1);
+</script>
+
 </body>
 </html>
